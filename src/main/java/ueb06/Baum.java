@@ -24,7 +24,7 @@ class Baum<T extends Comparable<T>> {
 
 		Element it = root;
 		while (it != null) {
-			int c = it.value.compareTo(value);
+			int c = value.compareTo(it.value);
 
 			if (c == 0)
 				return;
@@ -50,7 +50,35 @@ class Baum<T extends Comparable<T>> {
 	 *  Wie `add`, aber rekursiv zu implementieren.
 	 */
 	void addRek(T value) {
-		throw new UnsupportedOperationException();
+		if (root == null) {
+			root = new Element(value);
+			return;
+		} else {
+			addRek(root, value);
+		}
+	}
+
+	void addRek(Element it, T v) {
+
+		int c = v.compareTo(it.value);
+
+		if (c == 0) {
+			return;
+		} else if (c < 0){
+			if (it.left == null) {
+				it.left = new Element(v);
+				return;
+			} else {
+				addRek(it.left, v);
+			}
+		} else if (c > 0){
+			if (it.right == null) {
+				it.right = new Element(v);
+				return;
+			} else {
+				addRek(it.right, v);
+			}
+		}
 	}
 
 	/**
@@ -62,7 +90,7 @@ class Baum<T extends Comparable<T>> {
 
 		Element it = root;
 		while (it != null) {
-			int c = it.value.compareTo(value);
+			int c = value.compareTo(it.value);
 			if (c == 0)
 				return true;
 			else if (c < 0)
@@ -78,7 +106,32 @@ class Baum<T extends Comparable<T>> {
 	 * Wie `contains`, aber rekursiv zu implementieren.
 	 */
 	boolean containsRek(T value) {
-		throw new UnsupportedOperationException();
+		if (root == null) {
+			return false;
+		}
+		if(containsRek(root, value) == true){
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	boolean containsRek(Element it, T v) {
+		int c = v.compareTo(it.value);
+		if (c == 0) {
+			return true;
+		} else if(c < 0) {
+			if (it.left == null) {
+				return false;
+			}
+			return containsRek(it.left, v);
+		} else if(c > 0) {
+			if (it.right == null) {
+				return false;
+			}
+			return containsRek(it.right, v);
+		}
+		return false;
 	}
 
 	/**
